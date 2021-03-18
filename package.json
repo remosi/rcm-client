@@ -1,0 +1,22 @@
+{
+  "name": "@remosi/rcm-client",
+  "version": "1.0.0",
+  "description": "Remosi Config Management Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remosi/rcm-client.git"
+  },
+  "author": "REMOSI TECHNOLOGY OU",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/remosi/rcm-client/issues"
+  },
+  "homepage": "https://github.com/remosi/rcm-client#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}

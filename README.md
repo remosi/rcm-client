@@ -2,9 +2,6 @@
 
 Fast, unopinionated, minimalist config manager for [node](http://nodejs.org).
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
-
 ```js
 const RCM = require("rcm-client");
 const config = new RCM({

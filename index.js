@@ -26,9 +26,9 @@ const axios = require('axios');
  */
 
 function RCMClient(config) {
-    this.server = (config.server != undefined) ? config.server : 'config01.remosi.net';
-    this.protocol = config.protocol ? config.protocol : 'http';
-    this.port = config.port ? config.port : 80;
+    this.server = (config.server != undefined) ? config.server : 'config.remosi.net';
+    this.protocol = config.protocol ? config.protocol : 'https';
+    this.port = config.port;
     this.refreshInterval = config.refreshInterval ? config.refreshInterval : 60 * 60 * 3;
     this.appId = config.appId;
     this.appSecret = config.appSecret;
@@ -47,7 +47,12 @@ RCMClient.prototype.load = async function (topic, configName) {
     if (topic == undefined || configName == undefined) {
         return Promise.reject(Error("Invalid parameters!"))
     }
-    let URL = `${this.protocol}://${this.server}:${this.port}/v1/config/${topic}/${configName}`;
+    let URL = ''
+    if (this.port == undefined) {
+        URL = `${this.protocol}://${this.server}/v1/config/${topic}/${configName}`;
+    } else {
+        URL = `${this.protocol}://${this.server}:${this.port}/v1/config/${topic}/${configName}`;
+    }
     try {
         let response = await axios({
             method: 'get',
@@ -66,6 +71,17 @@ RCMClient.prototype.load = async function (topic, configName) {
     } catch (e) {
         return Promise.reject(e);
     }
+}
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {string} topic The configuration topic
+ * @param {string} configName The configuration name
+ * @return {Promise} A promise for result
+ */
+
+RCMClient.prototype.loadByT = async function (topic, configName) {
 }
 
 /**

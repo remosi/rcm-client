@@ -4,13 +4,13 @@ Fast, unopinionated, minimalist config manager for [node](http://nodejs.org).
 
 ```js
 const RCM = require("rcm-client");
+
 const config = new RCM({
-  appKey: "xxx",
-  appSecret: "xxx",
+  token: "xxx",
 });
 
 config
-  .load("topic", "item")
+  .load("config name")
   .then((config) => console.log(config))
   .catch((error) => console.log(error));
 ```

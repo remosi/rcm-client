@@ -1,3 +1,9 @@
+# IDE
+.vscode
+
+# Test
+test
+
 # Logs
 logs
 *.log

@@ -11,7 +11,7 @@
     "url": "git+https://github.com/remosi/rcm-client.git"
   },
   "author": "REMOSI TECHNOLOGY OU",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/remosi/rcm-client/issues"
   },

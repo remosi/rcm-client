@@ -29,9 +29,9 @@ function RCMClient(config) {
     this.server = (config.server != undefined) ? config.server : 'config.remosi.net';
     this.protocol = config.protocol ? config.protocol : 'https';
     this.port = config.port;
-    this.refreshInterval = config.refreshInterval ? config.refreshInterval : 60 * 60 * 3;
     this.token = config.token;
     this.configName = config.configName;
+    this.events = { update: (info) => { } }
 }
 
 /**
@@ -75,7 +75,11 @@ RCMClient.prototype.load = async function (configName) {
         return Promise.resolve(
             {
                 content: parsedContent.content,
-                payload: { created: parsedContent.payload.CREATED, updated: parsedContent.payload.UPDATED }
+                payload: {
+                    created: parsedContent.payload.CREATED,
+                    updated: parsedContent.payload.UPDATED,
+                    action: parsedContent.payload.UACTION
+                }
             });
     } catch (e) {
         return Promise.reject(e);
@@ -109,6 +113,43 @@ RCMClient.prototype.parser = function (data) {
     }
     if (payload.CODEC == 'BASE64') content = Buffer.from(content, 'base64').toString('utf-8');
     if (payload.FORMAT == 'JSON') content = JSON.parse(content);
-
     return { payload: payload, content: content }
+}
+
+/**
+ * Set event functions
+ *
+ * @param {string} eventName Name of event to assign callback
+ * @param {function} cb callback function
+ */
+
+RCMClient.prototype.on = function (eventName, cb) {
+    this.events[eventName] = cb;
+}
+
+
+/**
+ * Watch configuration file
+ *
+ * @param {string} configName Name of configuration to watch
+ * @param {number} watchInterval The watch interval in milliseconds
+ */
+
+RCMClient.prototype.watch = async function (configName, watchInterval) {
+
+    watchInterval = watchInterval ? watchInterval : 60 * 1000; // check every one minute by default
+
+    let initialConfig = await this.load(configName);
+    let lastUpdate = initialConfig.payload.updated;
+
+    setInterval(() => {
+        this.load(configName).then(periodicConfig => {
+            if (periodicConfig.payload.updated != lastUpdate) {
+                this.events.update({ configName: configName, action: periodicConfig.payload.action, content: periodicConfig.content });
+                lastUpdate = periodicConfig.payload.updated;
+            }
+        }).catch(e => {
+            console.log(e);
+        });
+    }, watchInterval);
 }

@@ -15,6 +15,10 @@ config
   .catch((error) => console.log(error));
 ```
 
+## Service Provider
+
+The service provided by Remosi Technology OU, before use first you should register for Remosi Cloud Services. For more information visit [Remosi website](https://remosi.com/)
+
 ## Installation
 
 This is a [Node.js](https://nodejs.org/en/) module available through the
@@ -31,4 +35,18 @@ Installation is done using the
 
 ```bash
 $ npm i @remosi/rcm-client
+```
+
+## Config watch
+
+With config watch you will be able to keep track config changes
+
+```js
+config.on("update", (info) => {
+  console.log(`config ${info.configName} updated and ${info.action} required!`);
+  console.log("Latest config:" + info.content);
+});
+
+// Start watching
+config.watch("config name");
 ```

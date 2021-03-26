@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/remosi/rcm-client.git"
   },
+  "keywords": [
+    "remote",
+    "configuration"
+  ],
   "author": "REMOSI TECHNOLOGY OU",
   "license": "MIT",
   "bugs": {
@@ -17,6 +21,7 @@
   },
   "homepage": "https://github.com/remosi/rcm-client#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "yaml": "^1.10.2"
   }
 }

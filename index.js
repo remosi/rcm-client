@@ -18,6 +18,7 @@ module.exports = RCMClient;
  */
 
 const axios = require('axios');
+const YAML = require('yaml');
 
 
 /**
@@ -30,6 +31,7 @@ function RCMClient(config) {
     this.protocol = config.protocol ? config.protocol : 'https';
     this.port = config.port;
     this.token = config.token;
+    this.decode = config.decode ? config.decode : false;
     this.configName = config.configName;
     this.events = { update: (info) => { } }
 }
@@ -108,11 +110,14 @@ RCMClient.prototype.parser = function (data) {
         if (payloadFlag) {
             payload[item[0].trim()] = item[1].trim();
         } else {
-            content += lines[i];
+            content += lines[i] + "\n";
         }
     }
     if (payload.CODEC == 'BASE64') content = Buffer.from(content, 'base64').toString('utf-8');
-    if (payload.FORMAT == 'JSON') content = JSON.parse(content);
+    if (this.decode) {
+        if (payload.FORMAT == 'JSON') content = JSON.parse(content);
+        if (payload.FORMAT == 'YAML') content = YAML.parse(content);
+    }
     return { payload: payload, content: content }
 }
 

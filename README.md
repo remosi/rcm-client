@@ -7,6 +7,7 @@ const RCM = require("rcm-client");
 
 const config = new RCM({
   token: "xxx",
+  decode: true, // Decode supported format (JSON/YAML)
 });
 
 config
